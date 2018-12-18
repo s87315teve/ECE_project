@@ -1,0 +1,37 @@
+Aggregator :
+	開啟瀏覽器：輸入 WIFIWEB 位置: 192.168.X.X 查看 Aggregator  IP
+	登入 Aggregator IP， 登入 密碼: arduino, 選擇 configure , advanced configuration panel (luci)
+	選擇 NETWORK， 點 br-lan 的 edit
+	選擇 Physical Settings, 並勾選 ap0x 與 LTE 所對應的 ethx
+	重新開啟 AP。
+
+Sensors: 
+	將 Sensors 插上 ethernet.
+	開起瀏覽器：輸入 WIFIWEB 位置: 192.168.X.X 查看 Sensors IP
+	登入 Sensors IP， 登入 密碼: arduino, 選擇 configure。
+	在 WIRELESS PARAMETERS ， Select a wifi network 選擇欲連接的 SSID (ex: ap02), password: iiottest (SECURITY :WAP2)
+	點選 configure & restart
+	
+	開啟 WinSCP, 點選編輯，主機名稱選擇要連線的 STA，並點選儲存
+	登入，若跳出錯誤，點確定
+	開啟右方 ap_ip， 確認 IP 是否改為 192.168.8.100
+	
+	開啟 putty ，連線至 所對應的 STA IP
+	跳出 login as : ， 鍵入 root
+	跳出 root@192.168.x.xxx's password:, 鍵入 arduino
+	鍵入 ps, 壓下 enter 按鍵。 觀察是否有 python /root/client.py, 
+					      python /root/send_data.py,
+					      python /root/mqtt-mutithread.py wlan0
+	1.若無，則鍵入 /etc/init.d/mqtt stop, 壓下 enter 按鍵。
+		在鍵入 /etc/init.d/mqtt start, 壓下 enter 按鍵。
+	  等待 30 秒。
+	  (此時會有畫面跳動不要害怕)
+	  重新鍵入 ps, 壓下 enter，確認是否有開起上述三個程式。
+	  (第二種做法，直接拔電源重新開啟。，並觀察 ps 後的結果)
+
+	2.若一切安好，拔掉 ethernet ，便完成第一個 Sensor。
+
+SERVER:
+	開啟 test_server2.py
+	若要調整 aggregation size, 執行 modify_factor.sh
+	若要調整 association, 執行 modify_cluster.sh
